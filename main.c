@@ -70,10 +70,13 @@ int main(int real_argc, char *real_argv[])
     unsigned i;
     struct my_thrd_args_ thrd_args = {NULL};
 
-    int default_argc = 2;
-    char *default_argv[2] = {
+    int default_argc = 6;
+    char *default_argv[6] = {
         real_argv[0],
         "--no-huge", // 默认不申请大页内存
+        "-c", "3", // cpu mask = 0x03
+        "--vdev=net_af_packet0,iface=ens33",
+        "--vdev=net_af_packet1,iface=ens38",
     };
     int argc = default_argc;
     char **argv = default_argv;
