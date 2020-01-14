@@ -115,14 +115,18 @@ int main(int real_argc, char *real_argv[])
         #define VECTOR_MAX_ITEMS 4
         obj_ptr_t out_vector[VECTOR_MAX_ITEMS];
         unsigned int n_dequeue_ok;
-        n_dequeue_ok =
-            rte_ring_sc_dequeue_bulk(thrd_args.r, out_vector, VECTOR_MAX_ITEMS,
-                                     &n_available_items_left);
+        n_dequeue_ok = rte_ring_sc_dequeue_burst(
+                    thrd_args.r,
+                    out_vector,
+                    VECTOR_MAX_ITEMS,
+                    &n_available_items_left);
         if (n_available_items_left > 0 && 0 == n_dequeue_ok) {
             const unsigned last_n_items = n_available_items_left;
-            n_dequeue_ok =
-                rte_ring_sc_dequeue_bulk(thrd_args.r, out_vector, last_n_items,
-                                         &n_available_items_left);
+            n_dequeue_ok = rte_ring_sc_dequeue_burst(
+                        thrd_args.r,
+                        out_vector,
+                        last_n_items,
+                        &n_available_items_left);
         }
         for (unsigned int i=0; i<n_dequeue_ok; i++) {
             printf("Main(): string dequeued: %s\n", (char*) out_vector[i]);
